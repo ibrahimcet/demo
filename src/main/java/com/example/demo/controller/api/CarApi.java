@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import javax.annotation.processing.Generated;
-import java.util.List;
 import java.util.Map;
 
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
@@ -47,4 +46,36 @@ public interface CarApi {
             produces = {"application/json;charset=utf-8"},
             method = RequestMethod.GET)
     ResponseEntity<?> filterCarList(@ApiParam(value = "Filter car list", required = true) @RequestParam Map<String, String> filters) throws Exception;
+
+
+    @ApiOperation(value = "Delete existing car", nickname = "deleteCar", response = Car.class, tags = {"car"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No Content", response = Car.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error.class),
+            @ApiResponse(code = 405, message = "Method Not allowed", response = Error.class),
+            @ApiResponse(code = 409, message = "Conflict", response = Error.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = Error.class)})
+    @RequestMapping(value = "/car/{id}",
+            produces = {"application/json;charset=utf-8"},
+            consumes = {"application/json;charset=utf-8"},
+            method = RequestMethod.DELETE)
+    ResponseEntity<String> deleteCar(@ApiParam(value = "Car id", required = true) @PathVariable String id) throws Exception;
+
+    @ApiOperation(value = "Get existing car", nickname = "getCar", response = Car.class, tags = {"car"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = Car.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error.class),
+            @ApiResponse(code = 405, message = "Method Not allowed", response = Error.class),
+            @ApiResponse(code = 409, message = "Conflict", response = Error.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = Error.class)})
+    @RequestMapping(value = "/car/{id}",
+            produces = {"application/json;charset=utf-8"},
+            consumes = {"application/json;charset=utf-8"},
+            method = RequestMethod.GET)
+    ResponseEntity<CarResponse> getCar(@ApiParam(value = "Car id", required = true) @PathVariable String id) throws Exception;
+
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -31,4 +32,17 @@ public class CarServiceImpl implements CarService {
                 .map(CarMapper.INSTANCE::carToCarDto)
                 .toList();
     }
+
+    @Override
+    public void deleteCar(String id) {
+        carRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<CarDto> getCarById(String id) {
+        Optional<Car> existingCar = carRepository.findById(id);
+        return existingCar.map(CarMapper.INSTANCE::carToCarDto);
+    }
+
+
 }

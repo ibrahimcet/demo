@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.controller.api.CarApi;
+import com.example.demo.dto.CarDto;
 import com.example.demo.dto.request.CarRequest;
 import com.example.demo.dto.response.CarResponse;
 import com.example.demo.mapper.CarMapper;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-
 public class CarController implements CarApi {
 
     private static final Logger logger = LoggerFactory.getLogger(CarController.class);
@@ -41,6 +42,9 @@ public class CarController implements CarApi {
 
     @Override
     public ResponseEntity<?> filterCarList(Map<String, String> filters) throws Exception {
+
+        //TODO: use predicate - querydsl for filtering in the search bar
+
         Set<String> validKeys = Set.of("brand", "model", "year", "kilometer", "price");
 
         for (String key : filters.keySet()) {
@@ -57,6 +61,25 @@ public class CarController implements CarApi {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(carResponseList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteCar(String id) throws Exception {
+
+        Optional<CarDto> existingCarDto = this.carService.getCarById(id);
+        if(existingCarDto.isPresent()){
+            carService.deleteCar(existingCarDto.get().getId());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<CarResponse> getCar(String id) throws Exception {
+        Optional<CarDto> existingCarDto = carService.getCarById(id);
+        return existingCarDto.map(carDto ->
+                new ResponseEntity<>(CarMapper.INSTANCE.carDtoToCarResponse(carDto), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }
