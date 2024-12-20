@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.controller.api.UserApi;
-import com.example.demo.entity.User;
+import com.example.demo.dto.UserDto;
+import com.example.demo.dto.request.UserRequest;
+import com.example.demo.dto.response.UserResponse;
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,18 +16,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class UserController implements UserApi {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private UserServiceImpl userService;
+    UserServiceImpl userService;
 
     @Override
-    public ResponseEntity<User> addCar(@Valid User body, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        User user = userService.addNewUser(body);
-        //logger.info("Added new car:{}", carResponse.getBrand() + " "+ carResponse.getModel());
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<UserResponse> addCar(@Valid UserRequest userRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UserResponse userResponse = UserMapper.INSTANCE.userDtoToUserResponse(userService.addNewUser(userRequest));
+        logger.info("Added user car:{}", userResponse.getUsername());
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<UserResponse> getUser(String id) throws Exception {
+        Optional<UserDto> existingUserDto = userService.getUserById(id);
+        return existingUserDto.map(userDto ->
+                        new ResponseEntity<>(UserMapper.INSTANCE.userDtoToUserResponse(userDto), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

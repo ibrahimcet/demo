@@ -5,6 +5,7 @@ import com.example.demo.dto.request.CarRequest;
 import com.example.demo.dto.response.CarResponse;
 import com.example.demo.entity.Car;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -17,6 +18,7 @@ public interface CarMapper {
 
     Car carDtoToCar(CarDto carDto);
 
+    @Mapping(target = "id", ignore = true)
     Car carRequestToCar(CarRequest carRequest);
 
     CarResponse carDtoToCarResponse(CarDto carDto);
