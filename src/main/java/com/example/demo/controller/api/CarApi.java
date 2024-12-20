@@ -4,7 +4,9 @@ import com.example.demo.dto.request.CarRequest;
 import com.example.demo.dto.response.CarResponse;
 import com.example.demo.entity.Car;
 import io.swagger.annotations.*;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import java.util.Map;
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen")
 @Api(tags = "car",value = "the Car API")
 @RequestMapping("/api/v1")
+@Validated
 public interface CarApi {
 
     @ApiOperation(value = "Add a new car", nickname = "addCar", response = Car.class, tags = {"car"})
@@ -29,7 +32,7 @@ public interface CarApi {
             produces = {"application/json;charset=utf-8"},
             consumes = {"application/json;charset=utf-8"},
             method = RequestMethod.POST)
-    ResponseEntity<CarResponse> addCar(@ApiParam(value = "Add new car", required = true) @RequestBody CarRequest body, HttpServletRequest request, HttpServletResponse response
+    ResponseEntity<CarResponse> addCar(@ApiParam(value = "Add new car", required = true)@RequestBody @Valid CarRequest body, HttpServletRequest request, HttpServletResponse response
     ) throws Exception;
 
 
