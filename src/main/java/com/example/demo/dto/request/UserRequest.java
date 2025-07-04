@@ -3,7 +3,7 @@ package com.example.demo.dto.request;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import validator.ValidEmail;
+import com.example.demo.validator.ValidEmail;
 
 @Data
 public class UserRequest {

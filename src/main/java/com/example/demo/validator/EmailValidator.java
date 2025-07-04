@@ -1,4 +1,4 @@
-package validator;
+package com.example.demo.validator;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;

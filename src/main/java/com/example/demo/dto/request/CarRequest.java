@@ -4,10 +4,9 @@ package com.example.demo.dto.request;
 import com.example.demo.dto.enums.BodyType;
 import com.example.demo.dto.enums.FuelType;
 import com.example.demo.dto.enums.GearBox;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import validator.ValidEnum;
+import com.example.demo.validator.ValidEnum;
 
 
 @Data
