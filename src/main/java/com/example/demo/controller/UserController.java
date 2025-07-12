@@ -9,6 +9,7 @@ import com.example.demo.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class UserController implements UserApi {
     UserServiceImpl userService;
 
     @Override
-    public ResponseEntity<UserResponse> addCar(@Valid UserRequest userRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<UserResponse> addUser(@Valid UserRequest userRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
         UserResponse userResponse = UserMapper.INSTANCE.userDtoToUserResponse(userService.addNewUser(userRequest));
         logger.info("Added user car:{}", userResponse.getUsername());
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
@@ -35,6 +36,10 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UserResponse> getUser(String id) throws Exception {
+        if (!ObjectId.isValid(id)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
         Optional<UserDto> existingUserDto = userService.getUserById(id);
         return existingUserDto.map(userDto ->
                         new ResponseEntity<>(UserMapper.INSTANCE.userDtoToUserResponse(userDto), HttpStatus.OK))

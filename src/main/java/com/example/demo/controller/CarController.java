@@ -9,6 +9,7 @@ import com.example.demo.service.impl.CarServiceImpl;
 import com.example.demo.util.CarUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,15 @@ public class CarController implements CarApi {
             }
         }
 
+        // predicate çevir sorguyu
+        // docker keykloack
+        // docker mongoyu taşı
+        // kafka notification
+        // redis cache ekle
+        // elasticsearch ve whitelist kullan
+
+
+
         List<CarResponse> carResponseList = carService.getAllCarList()
                 .stream()
                 .filter(car -> filters.entrySet().stream()
@@ -76,6 +86,10 @@ public class CarController implements CarApi {
 
     @Override
     public ResponseEntity<CarResponse> getCar(String id) throws Exception {
+        if (!ObjectId.isValid(id)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
         Optional<CarDto> existingCarDto = carService.getCarById(id);
         return existingCarDto.map(carDto ->
                 new ResponseEntity<>(CarMapper.INSTANCE.carDtoToCarResponse(carDto), HttpStatus.OK))

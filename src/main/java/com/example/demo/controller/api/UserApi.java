@@ -33,7 +33,7 @@ public interface UserApi {
             produces = {"application/json;charset=utf-8"},
             consumes = {"application/json;charset=utf-8"},
             method = RequestMethod.POST)
-    ResponseEntity<UserResponse> addCar(@ApiParam(value = "Add new user", required = true)@RequestBody @Valid UserRequest userRequest, HttpServletRequest request, HttpServletResponse response
+    ResponseEntity<UserResponse> addUser(@ApiParam(value = "Add new user", required = true)@RequestBody @Valid UserRequest userRequest, HttpServletRequest request, HttpServletResponse response
     ) throws Exception;
 
     @ApiOperation(value = "Get existing user car", nickname = "getUser", response = Car.class, tags = {"user"})

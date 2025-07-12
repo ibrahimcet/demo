@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.example.demo.util;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

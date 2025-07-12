@@ -32,7 +32,7 @@ public interface CarApi {
             produces = {"application/json;charset=utf-8"},
             consumes = {"application/json;charset=utf-8"},
             method = RequestMethod.POST)
-    ResponseEntity<CarResponse> addCar(@ApiParam(value = "Add new car", required = true)@RequestBody @Valid CarRequest body, HttpServletRequest request, HttpServletResponse response
+    ResponseEntity<CarResponse> addCar(@ApiParam(value = "Add new car", required = true) @RequestBody @Valid CarRequest body, HttpServletRequest request, HttpServletResponse response
     ) throws Exception;
 
 
